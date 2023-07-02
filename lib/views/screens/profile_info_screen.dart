@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:whats_app_clone/firebase/firebase_database.dart';
 
 import 'home_screen/home_screen.dart';
 
@@ -10,6 +12,7 @@ class ProfileInfoPage extends StatefulWidget {
 }
 
 class _ProfileInfoPageState extends State<ProfileInfoPage> {
+  String userName = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,7 +20,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -25,29 +28,26 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Text(
                       "Profile info",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.teal.shade800,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18),
+                      style: TextStyle(color: Colors.teal.shade800, fontWeight: FontWeight.w500, fontSize: 18),
                     ),
-                    Icon(Icons.more_vert_outlined)
+                    const Icon(Icons.more_vert_outlined)
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(22.0),
+              const Padding(
+                padding: EdgeInsets.all(22.0),
                 child: Text(
                   "Please provide your name and an optional profile photo",
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CircleAvatar(
@@ -55,20 +55,25 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                 backgroundColor: Colors.grey.shade200,
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.camera_alt_outlined,
                     color: Colors.grey,
                     size: 34,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               SizedBox(
                 width: 360,
                 child: TextField(
-                  decoration: InputDecoration(
+                  onChanged: (value) {
+                    setState(() {
+                      userName = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
                     hintText: "Type your name here",
                     suffixIcon: Icon(
                       Icons.emoji_emotions,
@@ -77,21 +82,30 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 300,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal.shade800),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.teal.shade800),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
+                  // added new user name to auth
+                  FirebaseAuth.instance.currentUser!.updateDisplayName(userName);
+
+                  // add user to firestore db
+                  FirebaseDatabase.addNewUserToDataBase(
+                    FirebaseAuth.instance.currentUser!.uid,
+                    userName,
+                    "",
                   );
+                  // send to next screen
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                      (Route<dynamic> route) => false);
                 },
-                child: Text('NEXT'),
+                child: const Text('NEXT'),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/theme/colors.dart';
 import 'package:whats_app_clone/views/chat_page.dart';
@@ -20,12 +21,12 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: MyColors.primary,
           child: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ChatPage(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const ChatPage(),
+              //   ),
+              // );
             },
             icon: const Icon(
               Icons.message_rounded,

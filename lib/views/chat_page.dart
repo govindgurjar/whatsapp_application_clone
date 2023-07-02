@@ -1,14 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:whats_app_clone/firebase/firebase_auth.dart';
 import 'package:whats_app_clone/theme/colors.dart';
 
+import '../firebase/firebase_database.dart';
+
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  const ChatPage(
+      {super.key,
+      required this.thisUserId,
+      required this.thisUserName,
+      required this.currentUserID});
+
+  final String currentUserID;
+  final String thisUserId;
+  final String thisUserName;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  TextEditingController messageController = TextEditingController();
+  ScrollController messageScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +55,18 @@ class _ChatPageState extends State<ChatPage> {
                     radius: 18,
                   ),
                   const SizedBox(width: 12),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Annie Edison',
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                        widget.thisUserName,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
                       ),
-                      Text(
+                      const Text(
                         'last seen today at 10:54 PM',
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
@@ -95,26 +112,71 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      body: const Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            child: Column(
-              children: [
-                MessageCard(
-                  isIAmSender: false,
-                  messageText: 'Hi, There',
-                ),
-                MessageCard(
-                  isIAmSender: true,
-                  messageText: 'Hi, i don\' know you, who are you?',
-                ),
-              ],
-            ),
-          ),
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseDatabase.getMessages(
+                  widget.currentUserID, widget.thisUserId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<QueryDocumentSnapshot<Object?>> listOfUser =
+                      snapshot.data!.docs;
+
+                  listOfUser.sort(
+                      (a, b) => (b['createdAt']).compareTo(a['createdAt']));
+                  List<QueryDocumentSnapshot<Object?>> shortedList = [
+                    ...listOfUser.reversed
+                  ];
+
+                  // Timestamp messageTime = item['createdAt'];
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      controller: messageScrollController,
+                      child: Column(
+                        children: [
+                          for (var item in shortedList)
+                            MessageCard(
+                              isIAmSender:
+                                  item['senderID'] == widget.currentUserID
+                                      ? true
+                                      : false,
+                              messageText: item['message'],
+                              messageTime: item['createdAt'],
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return const Text('No Data');
+              }),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            child: SendMessageWidget(),
+            child: SendMessageWidget(
+              messageController: messageController,
+              onTapSend: () {
+                // send message
+                FirebaseDatabase.addNewMessage(
+                  widget.currentUserID,
+                  widget.thisUserId,
+                  messageController.text,
+                );
+                messageController.clear();
+                // animate to end
+                Future.delayed(
+                  const Duration(
+                    milliseconds: 150,
+                  ),
+                  () {
+                    messageScrollController.animateTo(
+                        messageScrollController.position.maxScrollExtent,
+                        duration: Duration(milliseconds: 100),
+                        curve: Curves.linear);
+                  },
+                );
+              },
+            ),
           )
         ],
       ),
@@ -127,17 +189,22 @@ class MessageCard extends StatelessWidget {
     super.key,
     required this.isIAmSender,
     required this.messageText,
+    required this.messageTime,
   });
 
   final bool isIAmSender;
   final String messageText;
+  final Timestamp messageTime;
 
   @override
   Widget build(BuildContext context) {
+    DateTime messageTimeToDate =
+        DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(
-        mainAxisAlignment: isIAmSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment:
+            isIAmSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           Material(
             borderRadius: BorderRadius.only(
@@ -157,7 +224,7 @@ class MessageCard extends StatelessWidget {
                     constraints: const BoxConstraints(maxWidth: 220),
                     child: Text(
                       messageText,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   Container(
@@ -165,8 +232,9 @@ class MessageCard extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        '10:49 PM',
-                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                        "${messageTimeToDate.hour}:${messageTimeToDate.minute < 2 ? "0" + messageTimeToDate.minute.toString() : messageTimeToDate.minute}",
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.grey.shade600),
                       ),
                     ),
                   ),
@@ -181,9 +249,14 @@ class MessageCard extends StatelessWidget {
 }
 
 class SendMessageWidget extends StatelessWidget {
-  const SendMessageWidget({
+  SendMessageWidget({
     super.key,
+    required this.onTapSend,
+    required this.messageController,
   });
+
+  final Function onTapSend;
+  final TextEditingController messageController;
 
   @override
   Widget build(BuildContext context) {
@@ -213,8 +286,9 @@ class SendMessageWidget extends StatelessWidget {
                       color: Colors.grey.shade400,
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
+                      controller: messageController,
                       decoration: InputDecoration(
                         hintText: 'Message',
                         border: InputBorder.none,
@@ -249,9 +323,11 @@ class SendMessageWidget extends StatelessWidget {
           radius: 22,
           backgroundColor: MyColors.primary,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              onTapSend();
+            },
             icon: const Icon(
-              Icons.mic,
+              Icons.send,
               color: Colors.white,
             ),
           ),

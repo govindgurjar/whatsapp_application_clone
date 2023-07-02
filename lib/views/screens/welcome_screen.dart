@@ -1,8 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/views/screens/enter_number_screen.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+import 'home_screen/home_screen.dart';
+
+class WelcomeScreen extends StatefulWidget {
+  WelcomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  String verificationIdD = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +45,27 @@ class WelcomeScreen extends StatelessWidget {
                     backgroundColor: Colors.teal.shade800,
                     fixedSize: const Size(300, 45),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    // if user is already signed in then send to home screen
+                    if (FirebaseAuth.instance.currentUser != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const HomeScreen()),
+                        ),
+                      );
+                      return;
+                    }
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: ((context) => const EnterNumberScreen()),
                       ),
                     );
+
+                    // ConfirmationResult confirmationResult = await auth.signInWithPhoneNumber('+44 7123 123 456');
+                    // confirmationResult.confirm("");
                   },
                   child: const Text('AGREE AND CONTINUE'),
                 ),
