@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/utils/num_verification2.dart';
 
-class NumVerificationPage extends StatefulWidget {
-  const NumVerificationPage({super.key});
+import 'home_screen/home_screen.dart';
+
+class ProfileInfoPage extends StatefulWidget {
+  const ProfileInfoPage({super.key});
 
   @override
-  State<NumVerificationPage> createState() => _NumVerificationPageState();
+  State<ProfileInfoPage> createState() => _ProfileInfoPageState();
 }
 
-class _NumVerificationPageState extends State<NumVerificationPage> {
+class _ProfileInfoPageState extends State<ProfileInfoPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -16,6 +17,9 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -25,7 +29,7 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
                       width: 30,
                     ),
                     Text(
-                      "Enter your phone number",
+                      "Profile info",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.teal.shade800,
@@ -39,37 +43,42 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
               Padding(
                 padding: const EdgeInsets.all(22.0),
                 child: Text(
-                  "WhatsApp will need to verify your phone number. What's my number?",
+                  "Please provide your name and an optional profile photo",
                   textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                width: 200,
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                      hintText: "Choose a country",
-                      suffixIcon: Icon(Icons.arrow_drop_down)),
-                ),
-              ),
-              SizedBox(
-                width: 200,
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintText: "Enter phone number",
-                  ),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Carrier charges may apply',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+              CircleAvatar(
+                radius: 45,
+                backgroundColor: Colors.grey.shade200,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.camera_alt_outlined,
+                    color: Colors.grey,
+                    size: 34,
+                  ),
+                ),
               ),
               SizedBox(
-                height: 500,
+                height: 30,
+              ),
+              SizedBox(
+                width: 360,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Type your name here",
+                    suffixIcon: Icon(
+                      Icons.emoji_emotions,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 300,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -78,12 +87,12 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => NumVerificationSecond(),
+                      builder: (context) => HomeScreen(),
                     ),
                   );
                 },
                 child: Text('NEXT'),
-              )
+              ),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/utils/chat_page.dart';
+import 'package:whats_app_clone/theme/colors.dart';
+import 'package:whats_app_clone/views/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,48 +13,67 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+        child: CircleAvatar(
+          radius: 25,
+          backgroundColor: MyColors.primary,
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChatPage(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.message_rounded,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.teal.shade700,
+              color: MyColors.primary,
             ),
-            height: 200,
-            width: 420,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 60,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'WhatsApp',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 26,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(
-                        width: 130,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.photo_camera_rounded,
-                            color: Colors.white),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.search, color: Colors.white),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.more_vert_outlined,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            constraints: const BoxConstraints(),
+                            onPressed: () {},
+                            icon: const Icon(Icons.search, color: Colors.white),
+                          ),
+                          IconButton(
+                            constraints: const BoxConstraints(),
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.more_vert_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -66,34 +86,31 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.groups_2_outlined,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
-                        Text(
+                        const Text(
                           'CHATS',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 70,
                         ),
-                        Text(
+                        const Text(
                           'STATUS',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 70,
                         ),
-                        Text(
+                        const Text(
                           'CALLS',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ],
                     ),
@@ -102,20 +119,20 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          ListTile(
+          const ListTile(
             leading: CircleAvatar(
               radius: 24,
             ),
             title: Text('Thomas'),
             subtitle: Text("Hey folks what's a better option for me"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          ListTile(
+          const ListTile(
             leading: CircleAvatar(
               radius: 24,
               child: Image(
@@ -126,10 +143,10 @@ class _HomePageState extends State<HomePage> {
             title: Text('David'),
             subtitle: Text("Hey folks what's a better option for me"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          ListTile(
+          const ListTile(
             leading: CircleAvatar(
               radius: 24,
               child: Image(
@@ -140,34 +157,8 @@ class _HomePageState extends State<HomePage> {
             title: Text('Annie'),
             subtitle: Text("Hey folks what's a better option for me"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 300,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.teal.shade800,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatPage(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.message_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
