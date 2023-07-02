@@ -28,7 +28,7 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
                       "Enter your phone number",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.green.shade900,
+                          color: Colors.teal.shade800,
                           fontWeight: FontWeight.w500,
                           fontSize: 18),
                     ),
@@ -73,7 +73,7 @@ class _NumVerificationPageState extends State<NumVerificationPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade900),
+                    backgroundColor: Colors.teal.shade800),
                 onPressed: () {
                   Navigator.push(
                     context,

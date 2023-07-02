@@ -31,7 +31,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       "Profile info",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.green.shade900,
+                          color: Colors.teal.shade800,
                           fontWeight: FontWeight.w500,
                           fontSize: 18),
                     ),
@@ -81,7 +81,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade900),
+                    backgroundColor: Colors.teal.shade800),
                 onPressed: () {
                   Navigator.push(
                     context,

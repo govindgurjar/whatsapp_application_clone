@@ -44,7 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Text(
                 'Wellcome to WhatsApp',
-                style: TextStyle(fontSize: 36, color: Colors.green.shade900),
+                style: TextStyle(
+                    fontSize: 36,
+                    color: Colors.teal.shade800,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -69,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green.shade900,
+              backgroundColor: Colors.teal.shade800,
               fixedSize: const Size(300, 45),
             ),
             onPressed: () {

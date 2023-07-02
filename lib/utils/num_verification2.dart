@@ -31,7 +31,7 @@ class _NumVerificationSecondState extends State<NumVerificationSecond> {
                       "Verifying your number",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.green.shade900,
+                          color: Colors.teal.shade800,
                           fontWeight: FontWeight.w500,
                           fontSize: 18),
                     ),
@@ -133,7 +133,7 @@ class _NumVerificationSecondState extends State<NumVerificationSecond> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade900),
+                    backgroundColor: Colors.teal.shade800),
                 onPressed: () {
                   Navigator.push(
                     context,

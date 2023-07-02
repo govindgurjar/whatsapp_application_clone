@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app_clone/utils/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                           'CALLS',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -102,7 +103,45 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 590,
+            height: 5,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 24,
+            ),
+            title: Text('Thomas'),
+            subtitle: Text("Hey folks what's a better option for me"),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 24,
+              child: Image(
+                image: AssetImage('images/profile.png'),
+              ),
+              backgroundColor: Colors.black,
+            ),
+            title: Text('David'),
+            subtitle: Text("Hey folks what's a better option for me"),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 24,
+              child: Image(
+                image: AssetImage('images/whatsapplogo1.png'),
+              ),
+              backgroundColor: Colors.black,
+            ),
+            title: Text('Annie'),
+            subtitle: Text("Hey folks what's a better option for me"),
+          ),
+          SizedBox(
+            height: 300,
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -113,13 +152,23 @@ class _HomePageState extends State<HomePage> {
                   radius: 25,
                   backgroundColor: Colors.teal.shade800,
                   child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.message_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(),
+                        ),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.message_rounded,
+                      color: Colors.white,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
