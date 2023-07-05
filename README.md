@@ -1,7 +1,5 @@
 # whats_app_clone
 
-A new Flutter project.
-
 ## Getting Started
 
 
@@ -14,7 +12,9 @@ A new Flutter project.
 
 <img src="https://github.com/govindgurjar/whatsapp_application_clone/assets/83970520/ab1cbcdf-7f2c-4293-95af-92814d7e14a1" alt="drawing" width="300"/>
 
-<img src="https://github.com/govindgurjar/whatsapp_application_clone/assets/83970520/20dd0478-e1db-43e8-acc5-2cc1473149a0" alt="drawing" width="300"/>
+<img src="https://github.com/govindgurjar/whatsapp_application_clone/assets/83970520/3392d4e8-adc4-4696-93e3-836565fa756f" alt="drawing" width="300"/>
+
+<img src="https://github.com/govindgurjar/whatsapp_application_clone/assets/83970520/6257171e-0ab3-4212-b4d2-f74119007335" alt="drawing" width="300"/>
 
 
 This project is a starting point for a Flutter application.
